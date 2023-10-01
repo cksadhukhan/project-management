@@ -19,7 +19,7 @@ class Task(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tasks')
     
-    assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_tasks')
+    assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_tasks', blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='todo')
 
 

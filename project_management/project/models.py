@@ -12,7 +12,7 @@ class Project(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     manager = models.ForeignKey(User, on_delete=models.CASCADE, related_name='managed_projects')
-    members = models.ManyToManyField(User, related_name='projects', null=True)
+    members = models.ManyToManyField(User, related_name='projects', blank=True)
 
     class Meta:
         db_table = 'projects'

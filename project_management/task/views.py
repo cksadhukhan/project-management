@@ -1,5 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status, generics
+
+from utils.permissions import IsAdmin, IsManager, IsMember
 from .models import Task
 from .serializers import TaskSerializer
 
@@ -7,6 +9,14 @@ from .serializers import TaskSerializer
 class Tasks(generics.GenericAPIView):
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [IsAdmin() | IsManager() | IsMember()]
+        elif self.request.method == 'POST':
+            return [IsAdmin() | IsManager()]
+        elif self.request.method in ['PUT', 'PATCH', 'DELETE']:
+            return [IsAdmin() | IsManager()] 
 
     def get(self, request):
         tasks = Task.objects.all()
